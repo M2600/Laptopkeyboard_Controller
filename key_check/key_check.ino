@@ -57,13 +57,16 @@ void loop()
         digitalWrite(pins[i], LOW);
         for(int j = 0; j < i; j++)
         {
-            if(digitalRead(pins[j]) == LOW && pins[j] != pins[i])
+            if(digitalRead(pins[j]) == LOW)
             {   
-                Serial.print(keyName[i]);
+                Serial.print(keyName[j]);
                 Serial.print(" ");
-                Serial.println(keyName[j]);
+                Serial.println(keyName[i]);
             }
-            else{ Serial.println();}
+            else
+            { 
+                //Serial.println();
+            }
             
         }
         pinMode(pins[i], INPUT_PULLUP);

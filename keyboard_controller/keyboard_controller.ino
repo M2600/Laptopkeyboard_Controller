@@ -1,5 +1,6 @@
 #include <HID-Project.h>
 #include <HID-Settings.h>
+//#include "keymap.h"
 
 
 
@@ -35,21 +36,10 @@
 #define K_28 NULL
 
 
-//japanese keyboard
-#define KEY_JP_COLON KEY_NON_US
-#define KEY_JP_AT KEY_NON_US
-#define KEY_JP_CARET KEY_NON_US
+byte testKey = KEY_B;
 
-#define KEY_JP_HANZEN KEY_TILDE
-#define KEY_JP_KANJI KEY_TILDE // Alias
-#define KEY_JP_BACKSLASH KEY_INTERNATIONAL1
-#define KEY_JP_HIRAGANA KEY_INTERNATIONAL2
-#define KEY_JP_YEN KEY_INTERNATIONAL3
-#define KEY_JP_HENKAN KEY_INTERNATIONAL4
-#define KEY_JP_MUHENKAN KEY_INTERNATIONAL5
-
-int row[] = {K_1, K_2, K_3, K_4, K_5, K_6, K_7};
-int col[] = {K_9, K_10, K_11, K_12, K_13, K_14, K_15, K_16, K_17, K_18, K_19, K_20, K_21, K_22, K_23, K_24};
+int row[] = {K_3, K_4, K_6, K_7, K_9, K_10, K_12, K_13};
+int col[] = {K_1, K_2, K_5, K_11, K_14, K_15, K_16, K_17, K_18, K_19, K_20, K_21, K_22, K_23, K_24};
 
 void setup() {
 
@@ -70,7 +60,8 @@ void loop() {
         digitalWrite(row[i], LOW);
         for (int j = 0; j < sizeof(col)/sizeof(col[0]); j++){
             if (digitalRead(col[j]) == LOW){
-                Keyboard.write('A');
+                //Keyboard.write('A');
+                BootKeyboard.write(testKey);
             }
         }
         digitalWrite(row[i], HIGH);
