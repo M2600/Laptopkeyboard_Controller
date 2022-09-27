@@ -1,6 +1,6 @@
 #include <HID-Project.h>
 #include <HID-Settings.h>
-//#include "keymap.h"
+#include "keymap.h"
 
 
 
@@ -35,11 +35,14 @@
 #define K_27 NULL
 #define K_28 NULL
 
-
+KeyboardKeycode testKey = KEY_A;
 
 
 int row[] = {K_3, K_4, K_6, K_7, K_9, K_10, K_12, K_13};
 int col[] = {K_1, K_2, K_5, K_11, K_14, K_15, K_16, K_17, K_18, K_19, K_20, K_21, K_22, K_23, K_24};
+
+bool currentKeyState[8][15];
+bool beforeKeyState[8][15];
 
 void setup() {
 
@@ -51,6 +54,14 @@ void setup() {
     for (int i = 0; i < sizeof(col)/sizeof(col[0]); i++){
         pinMode(col[i], INPUT_PULLUP);
     }
+
+    //keyboard setup
+    for(int i = 0; i < sizeof(currentKeyState)/sizeof(currentKeyState[0]); i++){
+        for(int j = 0; j < sizeof(currentKeyState[0])/sizeof(currentKeyState[0][0]); j++){
+            currentKeyState[i][j] = true;
+            beforeKeyState[i][j] = true;
+        }
+    }
     
 }
 
@@ -59,9 +70,15 @@ void loop() {
     for (int i = 0; i < sizeof(row)/sizeof(row[0]); i++){
         digitalWrite(row[i], LOW);
         for (int j = 0; j < sizeof(col)/sizeof(col[0]); j++){
-            if (digitalRead(col[j]) == LOW){
-                //Keyboard.write('A');
-                BootKeyboard.write(testKey);
+             currentKeyState[i][j] = digitalRead(col[j]);
+            if(currentKeyState[i][j] != beforeKeyState[i][j]){
+                if(currentKeyState[i][j] == LOW){
+                    BootKeyboard.press(keymap[i][j]);
+                    beforeKeyState[i][j] = false;
+                }else{
+                    BootKeyboard.release(keymap[i][j]);
+                    beforeKeyState[i][j] = true;
+                }
             }
         }
         digitalWrite(row[i], HIGH);
