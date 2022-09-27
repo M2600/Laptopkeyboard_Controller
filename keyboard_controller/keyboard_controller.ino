@@ -36,7 +36,7 @@
 #define K_28 NULL
 
 
-byte testKey = KEY_B;
+
 
 int row[] = {K_3, K_4, K_6, K_7, K_9, K_10, K_12, K_13};
 int col[] = {K_1, K_2, K_5, K_11, K_14, K_15, K_16, K_17, K_18, K_19, K_20, K_21, K_22, K_23, K_24};
