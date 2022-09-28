@@ -35,7 +35,6 @@
 #define K_27 NULL
 #define K_28 NULL
 
-KeyboardKeycode testKey = KEY_A;
 
 
 int row[] = {K_3, K_4, K_6, K_7, K_9, K_10, K_12, K_13};
@@ -43,6 +42,7 @@ int col[] = {K_1, K_2, K_5, K_11, K_14, K_15, K_16, K_17, K_18, K_19, K_20, K_21
 
 bool currentKeyState[8][15];
 bool beforeKeyState[8][15];
+bool fnKeyEnable = false;
 
 void setup() {
 
@@ -72,11 +72,31 @@ void loop() {
         for (int j = 0; j < sizeof(col)/sizeof(col[0]); j++){
              currentKeyState[i][j] = digitalRead(col[j]);
             if(currentKeyState[i][j] != beforeKeyState[i][j]){
+                int mapKey = 0;
+                //Change keymap
+                if(fnKeyEnable)
+                {
+                    mapKey = 8;
+                }
                 if(currentKeyState[i][j] == LOW){
-                    BootKeyboard.press(keymap[i][j]);
+                    if(keymap[i + mapKey][j] == KEY_FN){
+                        fnKeyEnable = true;
+                        BootKeyboard.releaseAll();
+                    }
+                    else
+                    {
+                        BootKeyboard.press(keymap[i + mapKey][j]);
+                    }
                     beforeKeyState[i][j] = false;
                 }else{
-                    BootKeyboard.release(keymap[i][j]);
+                    if(keymap[i + mapKey][j] == KEY_FN){
+                        fnKeyEnable = false;
+                        BootKeyboard.releaseAll();
+                    }
+                    else
+                    {
+                        BootKeyboard.release(keymap[i + mapKey][j]);
+                    }
                     beforeKeyState[i][j] = true;
                 }
             }
