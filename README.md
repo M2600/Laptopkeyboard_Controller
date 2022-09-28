@@ -1,6 +1,8 @@
 # Laptopkeyboard_Controller
 Laptop keyboard Contoller
 
+![Exsample](misc/UsingKeyboard.jpg)
+
 # Requirements
 
 **Arduino IDE**
